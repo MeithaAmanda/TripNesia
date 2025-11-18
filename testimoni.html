@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TripNesia — Testimoni</title>
+  <meta name="description" content="Testimoni pelanggan TripNesia — pengalaman wisata, ulasan, dan penilaian." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Poppins', sans-serif; }
+    .fade-up { transform: translateY(8px); opacity: 0; transition: transform 400ms ease, opacity 400ms ease; }
+    .fade-up.show { transform: translateY(0); opacity: 1; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+  <header class="bg-white shadow sticky top-0 z-50">
+    <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="/index.html" class="text-2xl font-bold text-indigo-600">TripNesia</a>
+
+      <div class="hidden md:flex items-center space-x-6">
+        <a href="/index.html#destinasi" class="text-gray-600 hover:text-indigo-600">Destinasi</a>
+        <a href="/paket wisata.html" class="text-gray-600 hover:text-indigo-600">Paket Wisata</a>
+        <a href="/testimoni.html" class="text-indigo-700 font-semibold">Testimoni</a>
+        <a href="/login.html" class="text-indigo-700 hover:underline">Login</a>
+        <a href="/regist_akun.html" class="bg-indigo-600 text-white px-5 py-2 rounded-full hover:bg-indigo-700 transition">Daftar</a>
+      </div>
+
+      <div class="md:hidden">
+        <button id="mobile-menu-button" aria-label="Open menu" class="text-gray-700 focus:outline-none">
+          <svg id="icon-open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg id="icon-close" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-100 hidden">
+      <div class="px-6 pt-4 pb-6 space-y-3">
+        <a href="/index.html#destinasi" class="block text-gray-700 hover:text-indigo-600">Destinasi</a>
+        <a href="/paket wisata.html" class="block text-gray-700 hover:text-indigo-600">Paket Wisata</a>
+        <a href="/testimoni.html" class="block text-indigo-700">Testimoni</a>
+        <a href="/login.html" class="block text-indigo-700">Login</a>
+        <a href="/regist_akun.html" class="block bg-indigo-600 text-white px-4 py-2 rounded-full text-center">Daftar</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1">
+    <section class="relative bg-cover bg-center h-[36vh]" style="background-image:url('/assets/images/BG1.jpg')">
+      <div class="absolute inset-0 bg-gradient-to-b from-black/60 to-black/30"></div>
+      <div class="relative z-10 container mx-auto px-6 h-full flex flex-col justify-center items-center text-white text-center">
+        <h1 class="text-3xl md:text-4xl font-bold">Suara Pelanggan Kami</h1>
+        <p class="mt-2 max-w-2xl text-gray-100/90">Baca pengalaman nyata pelanggan TripNesia — ulasan dari perjalanan, layanan, dan pemandu lokal.</p>
+      </div>
+    </section>
+
+    <section class="container mx-auto px-6 py-12">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold">Testimoni</h2>
+        <div class="flex items-center gap-3">
+          <label class="text-sm text-gray-600 hidden md:block">Filter:</label>
+          <select id="filter-rating" class="border rounded px-3 py-2 text-sm">
+            <option value="">Semua rating</option>
+            <option value="5">5 ★</option>
+            <option value="4">4 ★ & ke atas</option>
+            <option value="3">3 ★ & ke atas</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="testimonials" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <!-- testimonial cards injected by JS -->
+      </div>
+
+      <div class="mt-8 text-center">
+        <button id="load-more" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Muat Lebih Banyak</button>
+      </div>
+    </section>
+
+    <section class="bg-white border-t mt-8">
+      <div class="container mx-auto px-6 py-10">
+        <h3 class="text-lg font-semibold mb-3">Tinggalkan Testimoni</h3>
+        <form id="submit-testimonial" class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <input id="t-name" class="border rounded px-3 py-2 md:col-span-1" placeholder="Nama (opsional)" />
+          <select id="t-rating" class="border rounded px-3 py-2 md:col-span-1">
+            <option value="5">5 ★</option>
+            <option value="4">4 ★</option>
+            <option value="3">3 ★</option>
+            <option value="2">2 ★</option>
+            <option value="1">1 ★</option>
+          </select>
+          <textarea id="t-message" rows="2" class="border rounded px-3 py-2 md:col-span-3" placeholder="Bagikan pengalaman Anda..." required></textarea>
+          <div class="md:col-span-3 flex justify-end">
+            <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Kirim Testimoni</button>
+          </div>
+        </form>
+        <p id="submit-note" class="text-sm text-gray-500 mt-2">Testimoni akan ditampilkan setelah disetujui (demo: langsung ditambahkan di halaman ini).</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-gray-800 text-white py-8">
+    <div class="container mx-auto px-6 text-center">
+      <a href="/index.html" class="text-2xl font-bold text-white">TripNesia</a>
+      <p class="text-gray-400 text-sm mt-2">Paket wisata terpercaya — pengalaman lokal terbaik.</p>
+      <div class="mt-6 text-gray-500 text-sm">&copy; TripNesia 2025. All Rights Reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle (same as other pages)
+    const mobileBtn = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const iconOpen = document.getElementById('icon-open');
+    const iconClose = document.getElementById('icon-close');
+    mobileBtn?.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      iconOpen?.classList.toggle('hidden');
+      iconClose?.classList.toggle('hidden');
+    });
+
+    // Reveal animation
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Sample testimonials data (replace with server data as needed)
+    const allTestimonials = [
+      { name: 'Dewi', rating: 5, message: 'Perjalanan ke Bali sangat menyenangkan, pemandu ramah dan itinerary rapi.', date: '2025-03-14' },
+      { name: 'Andi', rating: 5, message: 'Raja Ampat luar biasa — snorkeling terbaik yang pernah saya lakukan.', date: '2025-06-02' },
+      { name: 'Sari', rating: 4, message: 'Layanan baik, hanya transportasi sedikit terlambat tapi tetap puas.', date: '2025-04-20' },
+      { name: 'Budi', rating: 5, message: 'Bromo sunrise is amazing. Highly recommended TripNesia!', date: '2025-02-11' },
+      { name: 'Rina', rating: 3, message: 'Akomodasi standar, tapi guide sangat membantu.', date: '2025-01-05' },
+      { name: 'Tono', rating: 4, message: 'Food and local guide were great. Good value for money.', date: '2025-07-08' }
+    ];
+
+    const perPage = 6;
+    let displayed = 0;
+    const container = document.getElementById('testimonials');
+    const loadMoreBtn = document.getElementById('load-more');
+    const filterRating = document.getElementById('filter-rating');
+
+    function renderCard(item) {
+      const el = document.createElement('article');
+      el.className = 'bg-white rounded-xl shadow p-5 fade-up';
+      el.innerHTML = `
+        <div class="flex items-start gap-4">
+          <div class="w-14 h-14 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-semibold">${(item.name||'G').charAt(0).toUpperCase()}</div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h4 class="font-semibold">${item.name || 'Anonim'}</h4>
+              <div class="text-sm text-gray-500">• ${new Date(item.date).toLocaleDateString('id-ID')}</div>
+            </div>
+            <div class="mt-1 text-sm text-yellow-500">${'★'.repeat(item.rating)}${'☆'.repeat(5-item.rating)}</div>
+            <p class="mt-3 text-gray-700">${escapeHtml(item.message)}</p>
+          </div>
+        </div>
+      `;
+      return el;
+    }
+
+    function escapeHtml(s) {
+      return (s || '').replace(/[&<>"']/g, (m) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]);
+    }
+
+    function loadTestimonials(reset = false) {
+      if (!container) return;
+      if (reset) { container.innerHTML = ''; displayed = 0; }
+      const minRating = parseInt(filterRating?.value || '') || 0;
+      const filtered = allTestimonials.filter(t => t.rating >= minRating);
+      const toShow = filtered.slice(displayed, displayed + perPage);
+      toShow.forEach(t => container.appendChild(renderCard(t)));
+      displayed += toShow.length;
+      // show/hide load more
+      loadMoreBtn.style.display = displayed < filtered.length ? 'inline-block' : 'none';
+      // observe newly added for animation
+      document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+    }
+
+    loadMoreBtn?.addEventListener('click', () => loadTestimonials(false));
+    filterRating?.addEventListener('change', () => loadTestimonials(true));
+
+    // Submit testimonial (demo: append locally)
+    document.getElementById('submit-testimonial')?.addEventListener('submit', (ev) => {
+      ev.preventDefault();
+      const name = document.getElementById('t-name').value.trim() || 'Anonim';
+      const rating = parseInt(document.getElementById('t-rating').value, 10) || 5;
+      const message = document.getElementById('t-message').value.trim();
+      if (!message) { alert('Tulis pesan/testimoni terlebih dahulu.'); return; }
+      const item = { name, rating, message, date: new Date().toISOString().slice(0,10) };
+      allTestimonials.unshift(item);
+      // reset and re-render
+      document.getElementById('submit-testimonial').reset();
+      loadTestimonials(true);
+      // brief feedback
+      alert('Terima kasih! Testimoni Anda telah ditambahkan (demo).');
+    });
+
+    // initial load
+    loadTestimonials(true);
+  </script>
+</body>
+</html>

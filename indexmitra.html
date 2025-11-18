@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TripNesia Mitra — Bergabung Jadi Partner Wisata</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <meta name="description" content="TripNesia Mitra - Platform untuk menjadi mitra penyedia paket wisata, transportasi, dan akomodasi. Bergabung dan kembangkan bisnismu.">
+  <link rel="icon" href="/assets/images/favicon.ico" />
+
+  <style>
+    :root { --accent: #4f46e5; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-up {
+      animation: fadeUp 550ms cubic-bezier(.16,.84,.44,1) both;
+    }
+  </style>
+</head>
+
+<body class="bg-gradient-to-b from-gray-50 to-white text-gray-800">
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-50 bg-white/60 backdrop-blur-sm">
+    <div class="container mx-auto px-6 py-4 flex items-center justify-between">
+
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-600 to-indigo-400 flex items-center justify-center text-white font-bold">
+          T
+        </div>
+        <span class="text-2xl font-semibold text-indigo-700">TripNesia Mitra</span>
+      </a>
+
+      <!-- Menu Desktop -->
+      <nav class="hidden md:flex items-center gap-6">
+        <a href="#keuntungan" class="text-gray-600 hover:text-indigo-600 transition">Keuntungan Mitra</a>
+        <a href="#cara-kerja" class="text-gray-600 hover:text-indigo-600 transition">Cara Kerja</a>
+        <a href="#testimoni" class="text-gray-600 hover:text-indigo-600 transition">Testimoni</a>
+        <a href="/login_mitra.html" class="text-indigo-700 hover:underline">Login</a>
+        <a href="/regist_mitra.html" class="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 transition">Daftar Mitra</a>
+      </nav>
+
+      <!-- Mobile Menu -->
+      <div class="md:hidden">
+        <input id="menu-toggle" type="checkbox" class="peer hidden" />
+        <label for="menu-toggle" class="p-2 rounded-md inline-flex items-center justify-center text-gray-700 cursor-pointer">
+          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </label>
+      </div>
+    </div>
+
+    <!-- Mobile Menu Content -->
+    <div class="peer-checked:block hidden md:hidden bg-white border-t border-gray-100">
+      <div class="px-6 pt-4 pb-6 space-y-3">
+        <a href="#keuntungan" class="block text-gray-700 hover:text-indigo-600">Keuntungan Mitra</a>
+        <a href="#cara-kerja" class="block text-gray-700 hover:text-indigo-600">Cara Kerja</a>
+        <a href="#testimoni" class="block text-gray-700 hover:text-indigo-600">Testimoni</a>
+        <a href="/login_mitra.html" class="block text-indigo-700">Login</a>
+        <a href="/regist_mitra.html" class="block bg-indigo-600 text-white px-4 py-2 rounded-full text-center">Daftar</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="relative h-screen bg-cover bg-center" style="background-image: url('/assets/images/mitra-bg.jpg');">
+    <div class="absolute inset-0 bg-black/40"></div>
+
+    <div class="relative z-10 flex flex-col justify-center items-center h-full text-white text-center px-6">
+      <h1 class="text-4xl md:text-6xl font-extrabold mb-4 animate-fade-up">
+        Tingkatkan Bisnismu Bersama TripNesia
+      </h1>
+
+      <p class="text-lg md:text-xl mb-6 opacity-90 animate-fade-up" style="animation-delay: 130ms;">
+        Jadilah Mitra Resmi TripNesia: penyedia paket wisata, transportasi, dan akomodasi.
+      </p>
+
+      <a href="/regist_mitra.html" class="bg-indigo-600 text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:bg-indigo-700 hover:-translate-y-1 transition animate-fade-up" style="animation-delay: 250ms;">
+        Daftar Jadi Mitra
+      </a>
+    </div>
+  </section>
+
+  <!-- KEUNTUNGAN -->
+  <section id="keuntungan" class="py-20">
+    <div class="container mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Keuntungan Menjadi Mitra TripNesia</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div class="bg-white p-8 rounded-xl shadow hover:-translate-y-2 transition">
+          <h3 class="font-bold text-xl mb-2">Pasar Lebih Luas</h3>
+          <p class="text-gray-600">Bisnismu tampil di seluruh Indonesia dan menjangkau ribuan wisatawan.</p>
+        </div>
+        <div class="bg-white p-8 rounded-xl shadow hover:-translate-y-2 transition">
+          <h3 class="font-bold text-xl mb-2">Pemesanan Mudah</h3>
+          <p class="text-gray-600">Semua transaksi dan pemesanan dikelola otomatis melalui sistem TripNesia.</p>
+        </div>
+        <div class="bg-white p-8 rounded-xl shadow hover:-translate-y-2 transition">
+          <h3 class="font-bold text-xl mb-2">Pendapatan Stabil</h3>
+          <p class="text-gray-600">Jadwal trip lebih teratur dengan aliran pelanggan yang konsisten.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARA KERJA -->
+  <section id="cara-kerja" class="py-20 bg-gray-50">
+    <div class="container mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center text-gray-800 mb-16">Cara Kerja Menjadi Mitra</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+
+        <div class="bg-white p-6 rounded-xl shadow">
+          <div class="w-12 h-12 bg-indigo-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-lg">1</div>
+          <h3 class="font-bold mb-2">Daftar Akun</h3>
+          <p class="text-gray-600 text-sm">Buat akun mitra hanya dalam beberapa menit.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow">
+          <div class="w-12 h-12 bg-indigo-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-lg">2</div>
+          <h3 class="font-bold mb-2">Verifikasi</h3>
+          <p class="text-gray-600 text-sm">Upload identitas & data usaha untuk verifikasi.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow">
+          <div class="w-12 h-12 bg-indigo-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-lg">3</div>
+          <h3 class="font-bold mb-2">Upload Paket</h3>
+          <p class="text-gray-600 text-sm">Tambahkan paket wisata atau layanan yang kamu tawarkan.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow">
+          <div class="w-12 h-12 bg-indigo-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-lg">4</div>
+          <h3 class="font-bold mb-2">Mulai Terima Pesanan</h3>
+          <p class="text-gray-600 text-sm">Dapatkan pelanggan dari seluruh Indonesia.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONI -->
+  <section id="testimoni" class="py-20">
+    <div class="container mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Testimoni Mitra TripNesia</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+
+        <div class="bg-white p-8 rounded-lg shadow-lg">
+          <p class="text-gray-600 italic mb-4">"Sejak bergabung dengan TripNesia, pesanan paket wisata saya naik 3x lipat!"</p>
+          <p class="font-semibold text-gray-800">— Mitra Bali Holiday</p>
+        </div>
+
+        <div class="bg-white p-8 rounded-lg shadow-lg">
+          <p class="text-gray-600 italic mb-4">"Sistemnya mudah digunakan, pembayaran cepat, dan sangat membantu bisnis saya."</p>
+          <p class="font-semibold text-gray-800">— Mitra Bromo Travel</p>
+        </div>
+
+        <div class="bg-white p-8 rounded-lg shadow-lg">
+          <p class="text-gray-600 italic mb-4">"Layanan customer servicenya luar biasa. Bisnis saya berkembang pesat."</p>
+          <p class="font-semibold text-gray-800">— Mitra Flores Tour</p>
+        </div>
+
+      </div>
+
+      <div class="flex justify-center mt-10">
+        <a href="/testimoni_mitra.html" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-full font-semibold shadow-lg transition">Lihat Testimoni Lainnya</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-gray-900 text-gray-300 py-8">
+    <div class="container mx-auto px-6 text-center">
+      <div class="md:flex md:justify-between md:items-center">
+        <div class="mb-4 md:mb-0">
+          <a href="#" class="text-2xl font-bold text-white">TripNesia Mitra</a>
+          <p class="text-gray-400 text-sm">Platform partner bisnis wisata terpercaya sejak 2020</p>
+        </div>
+
+        <div class="space-x-4">
+          <a href="#keuntungan" class="text-gray-300 hover:text-white">Keuntungan</a>
+          <a href="#cara-kerja" class="text-gray-300 hover:text-white">Cara Kerja</a>
+          <a href="#testimoni" class="text-gray-300 hover:text-white">Testimoni</a>
+        </div>
+      </div>
+
+      <div class="mt-6 text-gray-500 text-sm">
+        &copy; TripNesia Mitra 2025. All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

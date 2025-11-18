@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TripNesia — Status Pesanan & Pembayaran</title>
+  <meta name="description" content="Pantau status pesanan TripNesia — periksa & kelola pemesanan wisata Anda." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Poppins', sans-serif; }
+    .fade-up { transform: translateY(8px); opacity: 0; transition: transform 400ms ease, opacity 400ms ease; }
+    .fade-up.show { transform: translateY(0); opacity: 1; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+<header class="bg-white shadow sticky top-0 z-50">
+  <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+    <a href="/index.html" class="text-2xl font-bold text-indigo-600">TripNesia</a>
+    <div class="hidden md:flex items-center space-x-6">
+      <a href="/index.html#destinasi" class="text-gray-600 hover:text-indigo-600">Beranda</a>
+    </div>
+    <div class="md:hidden">
+      <button id="mobile-menu-button" aria-label="Open menu" class="text-gray-700 focus:outline-none">
+        <svg id="icon-open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <svg id="icon-close" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-100 hidden">
+    <div class="px-6 pt-4 pb-6 space-y-3">
+      <a href="/index.html#destinasi" class="block text-gray-700 hover:text-indigo-600">Destinasi</a>
+      <a href="/paket wisata.html" class="block text-gray-700 hover:text-indigo-600">Paket Wisata</a>
+      <a href="/login.html" class="block text-indigo-700">Login</a>
+      <a href="/regist_akun.html" class="block bg-indigo-600 text-white px-4 py-2 rounded-full text-center">Daftar</a>
+    </div>
+  </div>
+</header>
+
+<main class="flex-1 container mx-auto px-6 py-8">
+  <h1 class="text-2xl font-bold mb-6">Status Pesanan & Pembayaran</h1>
+
+  <section id="orders-section" class="mb-8">
+    <div id="orders" class="grid gap-4">
+      <!-- order cards injected by JS -->
+    </div>
+  </section>
+
+  <section class="mt-6">
+    <h3 class="font-semibold mb-2">Ringkasan kebijakan pembatalan & reschedule</h3>
+    <ul class="list-disc ml-5 text-sm text-gray-600">
+      <li><strong>Pembatalan:</strong> Jika pesanan dibatalkan ≥7 hari sebelum keberangkatan, refund 90% (biaya admin 10%). &lt;48 jam refund mungkin 0% untuk layanan tertentu.</li>
+      <li><strong>Reschedule:</strong> Bisa hingga 3 hari sebelum keberangkatan tanpa biaya (tergantung ketersediaan). &lt;72 jam mungkin ada biaya.</li>
+    </ul>
+  </section>
+</main>
+
+<footer class="bg-gray-800 text-white py-8">
+  <div class="container mx-auto px-6 text-center">
+    <a href="/index.html" class="text-2xl font-bold text-white">TripNesia</a>
+    <p class="text-gray-400 text-sm mt-2">Paket wisata terpercaya — pengalaman lokal terbaik.</p>
+    <div class="mt-6 text-gray-500 text-sm">&copy; TripNesia 2025. All Rights Reserved.</div>
+  </div>
+</footer>
+
+<!-- Payment & Cancel/Reschedule Modal -->
+<div id="modal-root" class="fixed inset-0 hidden items-center justify-center z-50">
+  <div id="modal-backdrop" class="absolute inset-0 bg-black/50"></div>
+  <div class="relative bg-white rounded-lg max-w-lg w-full p-6 mx-4 z-10">
+    <h4 id="modal-title" class="text-lg font-semibold mb-2"></h4>
+    <div id="modal-body" class="text-sm text-gray-700 mb-4"></div>
+
+    <form id="payment-form" class="space-y-3 hidden">
+      <div class="text-sm text-gray-600">Jumlah: <span id="payment-amount" class="font-semibold"></span></div>
+      <div class="space-y-2">
+        <label class="flex items-center gap-2"><input type="radio" name="pay-method" value="va" checked /> Virtual Account (Bank transfer)</label>
+        <label class="flex items-center gap-2"><input type="radio" name="pay-method" value="card" /> Kartu Kredit / Debit</label>
+        <label class="flex items-center gap-2"><input type="radio" name="pay-method" value="cod" /> Bayar di Tempat (jika tersedia)</label>
+      </div>
+      <div id="payment-note" class="text-xs text-gray-500">Pembayaran demo — transaksi disimulasikan.</div>
+    </form>
+
+    <form id="reschedule-form" class="hidden space-y-3">
+      <label class="text-sm">Pilih tanggal baru</label>
+      <input id="reschedule-date" type="date" class="border rounded px-3 py-2 w-full" />
+      <div class="text-xs text-gray-500">Reschedule dapat dikenakan biaya jika kurang dari 72 jam sebelum keberangkatan.</div>
+    </form>
+
+    <div class="flex justify-between gap-3 mt-4">
+      <button id="modal-cancel" class="px-4 py-2 rounded border">Tutup</button>
+      <div class="flex gap-2">
+        <button id="modal-secondary" class="px-4 py-2 rounded border hidden">Batal</button>
+        <button id="modal-confirm" class="px-4 py-2 rounded bg-indigo-600 text-white">Konfirmasi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const orders = [
+  { id: 'A001', package: 'Paket Bali 4H/3M', date: '2025-11-10', status: 'Pending', price: 2500000 },
+  { id: 'A002', package: 'Raja Ampat Diving', date: '2025-08-05', status: 'Confirmed', price: 7500000 },
+  { id: 'A003', package: 'Bromo Sunrise', date: '2025-09-01', status: 'Paid', price: 950000, payment: { method: 'va', tx: 'VA123456', paidAt: '2025-06-01' } }
+];
+
+const ordersContainer = document.getElementById('orders');
+const modalRoot = document.getElementById('modal-root');
+const modalTitle = document.getElementById('modal-title');
+const modalBody = document.getElementById('modal-body');
+const paymentForm = document.getElementById('payment-form');
+const paymentAmountEl = document.getElementById('payment-amount');
+const rescheduleForm = document.getElementById('reschedule-form');
+const rescheduleDate = document.getElementById('reschedule-date');
+const modalCancel = document.getElementById('modal-cancel');
+const modalConfirm = document.getElementById('modal-confirm');
+const modalSecondary = document.getElementById('modal-secondary');
+
+let activeOrderId = null;
+let activeAction = null;
+
+function escapeHtml(s){return (s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]);}
+function priceFmt(v){return 'Rp ' + (v||0).toLocaleString('id-ID');}
+
+function renderOrderCard(o){
+  const div = document.createElement('div');
+  div.className = 'p-4 border rounded flex items-center justify-between gap-4 bg-white';
+  const left = document.createElement('div');
+  left.innerHTML = `<div class="font-semibold">${escapeHtml(o.package)}</div>
+                    <div class="text-sm text-gray-500">ID: ${o.id} • Tanggal: ${new Date(o.date).toLocaleDateString('id-ID')}</div>
+                    <div class="text-sm mt-1">${priceFmt(o.price)}</div>`;
+  const right = document.createElement('div');
+  const statusColor = { Pending:'bg-yellow-100 text-yellow-800', Confirmed:'bg-blue-100 text-blue-800', Paid:'bg-green-100 text-green-800', Cancelled:'bg-red-100 text-red-800', Rescheduled:'bg-indigo-100 text-indigo-800', Completed:'bg-gray-100 text-gray-800' }[o.status] || 'bg-gray-100 text-gray-800';
+
+  let paymentInfoHtml = '';
+  if(o.payment) paymentInfoHtml = `<div class="text-xs text-gray-600 mt-2">Metode: <span class="font-medium">${escapeHtml(o.payment.method)}</span> • TX: <span class="font-medium">${escapeHtml(o.payment.tx)}</span></div>`;
+
+  right.innerHTML = `
+    <div class="text-sm ${statusColor} px-3 py-1 rounded-full inline-block">${o.status}</div>
+    ${paymentInfoHtml}
+    <div class="mt-3 flex gap-2">
+      <button class="px-3 py-1 border rounded text-sm btn-view" data-id="${o.id}">Detail</button>
+      ${(o.status !== 'Cancelled' && o.status !== 'Paid') ? `<button class="px-3 py-1 bg-green-600 text-white rounded text-sm btn-pay" data-id="${o.id}">Bayar</button>` : ''}
+      ${(o.status !== 'Cancelled' && o.status !== 'Paid') ? `<button class="px-3 py-1 bg-yellow-500 text-white rounded text-sm btn-reschedule" data-id="${o.id}">Reschedule</button>` : ''}
+      ${(o.status !== 'Cancelled' && o.status !== 'Paid') ? `<button class="px-3 py-1 bg-red-600 text-white rounded text-sm btn-cancel" data-id="${o.id}">Batal</button>` : ''}
+    </div>
+  `;
+  div.appendChild(left);
+  div.appendChild(right);
+  return div;
+}
+
+function refreshOrders(){
+  ordersContainer.innerHTML = '';
+  orders.forEach(o => ordersContainer.appendChild(renderOrderCard(o)));
+  attachOrderListeners();
+}
+
+function calcRefund(order){
+  const now = new Date();
+  const trip = new Date(order.date);
+  const diffHours = (trip - now)/(1000*60*60);
+  if(diffHours>=24*7) return { percent:0.9 };
+  if(diffHours<48) return { percent:0 };
+  return { percent:0.5 };
+}
+
+function openModal(action, orderId){
+  activeOrderId = orderId;
+  activeAction = action;
+  const order = orders.find(x=>x.id===orderId);
+  if(!order) return;
+
+  modalRoot.classList.remove('hidden');
+  modalRoot.style.display='flex';
+  document.body.style.overflow='hidden';
+
+  paymentForm.classList.add('hidden');
+  rescheduleForm.classList.add('hidden');
+  modalSecondary.classList.add('hidden');
+
+  if(action==='pay'){
+    modalTitle.textContent = `Pembayaran Pesanan ${order.id}`;
+    modalBody.innerHTML = `<p class="mb-2">Bayar untuk <strong>${escapeHtml(order.package)}</strong> — ${priceFmt(order.price)}</p>`;
+    paymentAmountEl.textContent = priceFmt(order.price);
+    paymentForm.classList.remove('hidden');
+    modalSecondary.classList.remove('hidden');
+    modalSecondary.textContent='Batal';
+    modalConfirm.textContent='Bayar Sekarang';
+  } else if(action==='cancel'){
+    const refund = calcRefund(order);
+    modalTitle.textContent=`Batalkan Pesanan ${order.id}`;
+    modalBody.innerHTML=`<p class="mb-2">Anda akan membatalkan <strong>${escapeHtml(order.package)}</strong> (${priceFmt(order.price)}).</p>
+      <p class="text-sm text-gray-600">Estimasi refund: <strong>${priceFmt(Math.round(order.price*refund.percent))}</strong> (${Math.round(refund.percent*100)}%).</p>`;
+    modalConfirm.textContent='Konfirmasi Pembatalan';
+  } else if(action==='reschedule'){
+    modalTitle.textContent=`Reschedule Pesanan ${order.id}`;
+    modalBody.innerHTML=`<p class="mb-2">Pilih tanggal baru untuk paket <strong>${escapeHtml(order.package)}</strong>.</p>`;
+    rescheduleForm.classList.remove('hidden');
+    rescheduleDate.value=order.date;
+    modalConfirm.textContent='Konfirmasi Reschedule';
+    modalSecondary.classList.remove('hidden');
+    modalSecondary.textContent='Batal';
+  } else if(action==='view'){
+    modalTitle.textContent=`Detail Pesanan ${order.id}`;
+    modalBody.innerHTML=`<pre class="text-sm">${escapeHtml(JSON.stringify(order,null,2))}</pre>`;
+    modalConfirm.textContent='Tutup';
+  }
+}
+
+function closeModal(){
+  modalRoot.classList.add('hidden');
+  modalRoot.style.display='';
+  document.body.style.overflow='';
+  activeOrderId = null;
+  activeAction = null;
+}
+
+modalCancel.addEventListener('click',closeModal);
+
+function processPayment(orderId, method){
+  const order = orders.find(x=>x.id===orderId);
+  if(!order) return;
+  modalConfirm.disabled=true;
+  modalConfirm.textContent='Memproses...';
+  setTimeout(()=>{
+    const tx = (method==='va'?'VA':method==='card'?'CC':'COD')+Math.floor(Math.random()*900000+100000);
+    order.status='Paid';
+    order.payment={method,tx,paidAt:new Date().toISOString().slice(0,10)};
+    modalConfirm.disabled=false;
+    modalConfirm.textContent='Konfirmasi';
+    alert(`Pembayaran berhasil.\nID Transaksi: ${tx}\nPesanan ${order.id} telah dibayar.`);
+    refreshOrders();
+    closeModal();
+  },1200);
+}
+
+modalConfirm.addEventListener('click',()=>{
+  if(!activeOrderId || !activeAction){closeModal(); return;}
+  const order=orders.find(x=>x.id===activeOrderId);
+  if(!order) return;
+
+  if(activeAction==='pay'){
+    const method=document.querySelector('input[name="pay-method"]:checked')?.value||'va';
+    processPayment(activeOrderId,method);
+    return;
+  }
+
+  if(activeAction==='cancel'){
+    const refund=calcRefund(order);
+    order.status='Cancelled';
+    order.refund={percent:refund.percent,amount:Math.round(order.price*refund.percent),processedAt:new Date().toISOString().slice(0,10)};
+    alert(`Pesanan ${order.id} dibatalkan.\nEstimasi pengembalian: ${priceFmt(order.refund.amount)} (${Math.round(refund.percent*100)}%).`);
+    refreshOrders();
+    closeModal();
+    return;
+  }
+
+  if(activeAction==='reschedule'){
+    const newDate=rescheduleDate.value;
+    if(!newDate){alert('Silakan pilih tanggal baru.'); return;}
+    const now=new Date();
+    const orig=new Date(order.date);
+    const diffHours=(orig-now)/(1000*60*60);
+    if(diffHours<72 && !confirm('Reschedule kurang dari 72 jam sebelum keberangkatan mungkin dikenakan biaya. Lanjutkan?')) return;
+    order.date=newDate;
+    order.status='Rescheduled';
+    alert(`Pesanan ${order.id} dijadwalkan ulang ke ${new Date(newDate).toLocaleDateString('id-ID')}.`);
+    refreshOrders();
+    closeModal();
+    return;
+  }
+
+  closeModal();
+});
+
+function attachOrderListeners(){
+  document.querySelectorAll('.btn-view').forEach(b=>{b.onclick=ev=>openModal('view',ev.currentTarget.dataset.id)});
+  document.querySelectorAll('.btn-pay').forEach(b=>{b.onclick=ev=>openModal('pay',ev.currentTarget.dataset.id)});
+  document.querySelectorAll('.btn-reschedule').forEach(b=>{b.onclick=ev=>openModal('reschedule',ev.currentTarget.dataset.id)});
+  document.querySelectorAll('.btn-cancel').forEach(b=>{b.onclick=ev=>openModal('cancel',ev.currentTarget.dataset.id)});
+}
+
+refreshOrders();
+</script>
+</body>
+</html>
